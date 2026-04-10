@@ -7,6 +7,9 @@ settings = get_settings()
 # Strip sslmode/channel_binding params that asyncpg doesn't accept,
 # then pass ssl=True for Neon / production TLS
 def _make_engine_url(raw: str) -> tuple[str, dict]:
+    # SQLite URLs have sqlite+aiosqlite:///./path — skip query munging
+    if raw.startswith("sqlite"):
+        return raw, {}
     from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
     parsed = urlparse(raw)
     qs = parse_qs(parsed.query)
@@ -22,11 +25,11 @@ def _make_engine_url(raw: str) -> tuple[str, dict]:
 
 _url, _connect_args = _make_engine_url(settings.database_url)
 
+_is_sqlite = _url.startswith("sqlite")
 engine = create_async_engine(
     _url,
     echo=not settings.is_production,
-    pool_size=10,
-    max_overflow=20,
+    **({} if _is_sqlite else {"pool_size": 10, "max_overflow": 20}),
     connect_args=_connect_args,
 )
 

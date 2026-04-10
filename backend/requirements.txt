@@ -1,0 +1,42 @@
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+
+# Database
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+
+# Config
+pydantic-settings==2.6.1
+pydantic==2.10.2
+python-dotenv==1.0.1
+
+# Auth
+firebase-admin==6.6.0
+
+# Background jobs
+celery==5.4.0
+redis==5.2.1
+
+# HTTP client (Recall.ai, ElevenLabs, SendGrid)
+httpx==0.28.0
+
+# AI
+anthropic==0.39.0
+
+# Google APIs
+google-auth==2.37.0
+google-api-python-client==2.154.0
+
+# Security
+python-jose[cryptography]==3.3.0
+itsdangerous==2.2.0   # HMAC tokens for pre-interview page
+
+# Observability
+structlog==24.4.0
+
+# Dev
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.0
